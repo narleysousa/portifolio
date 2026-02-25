@@ -50,7 +50,7 @@
   --sidebar-primary-foreground: #F5CBB7; /* Pêssego claro */
   --chart-1: #F5CBB7;
   --chart-2: #A86F56;
-  --chart-3: #2B2BSC;
+  --chart-3: #2B2B5C;
   --chart-4: #121243;
   --chart-5: #020229;
   --radius: 0.65rem;
@@ -60,22 +60,22 @@
   --card-foreground: #F5CBB7; /* Pêssego claro */
   --popover: #121243; /* Azul escuro */
   --popover-foreground: #F5CBB7; /* Pêssego claro */
-  --secondary: #2B2BSC; /* Azul-marinho */
+  --secondary: #2B2B5C; /* Azul-marinho */
   --secondary-foreground: #F5CBB7; /* Pêssego claro */
-  --muted: #2B2BSC; /* Azul-marinho */
+  --muted: #2B2B5C; /* Azul-marinho */
   --muted-foreground: #F5CBB7; /* Pêssego claro */
   --accent: #A86F56; /* Marrom/Cobre */
   --accent-foreground: #F5CBB7; /* Pêssego claro */
   --destructive: oklch(0.577 0.245 27.325);
   --destructive-foreground: oklch(0.985 0 0);
-  --border: #2B2BSC; /* Azul-marinho */
+  --border: #2B2B5C; /* Azul-marinho */
   --input: #121243; /* Azul escuro */
   --ring: #A86F56; /* Marrom/Cobre */
   --sidebar: #020229; /* Navy escuro */
   --sidebar-foreground: #F5CBB7; /* Pêssego claro */
   --sidebar-accent: #A86F56; /* Marrom/Cobre */
   --sidebar-accent-foreground: #F5CBB7; /* Pêssego claro */
-  --sidebar-border: #2B2BSC; /* Azul-marinho */
+  --sidebar-border: #2B2B5C; /* Azul-marinho */
   --sidebar-ring: #A86F56; /* Marrom/Cobre */
 }
 
@@ -91,27 +91,27 @@
   --card-foreground: #F5CBB7; /* Pêssego claro */
   --popover: #121243; /* Azul escuro */
   --popover-foreground: #F5CBB7; /* Pêssego claro */
-  --secondary: #2B2BSC; /* Azul-marinho */
+  --secondary: #2B2B5C; /* Azul-marinho */
   --secondary-foreground: #F5CBB7; /* Pêssego claro */
-  --muted: #2B2BSC; /* Azul-marinho */
+  --muted: #2B2B5C; /* Azul-marinho */
   --muted-foreground: #F5CBB7; /* Pêssego claro */
   --accent: #A86F56; /* Marrom/Cobre */
   --accent-foreground: #F5CBB7; /* Pêssego claro */
   --destructive: oklch(0.704 0.191 22.216);
   --destructive-foreground: oklch(0.985 0 0);
-  --border: #2B2BSC; /* Azul-marinho */
+  --border: #2B2B5C; /* Azul-marinho */
   --input: #121243; /* Azul escuro */
   --ring: #A86F56; /* Marrom/Cobre */
   --chart-1: #F5CBB7;
   --chart-2: #A86F56;
-  --chart-3: #2B2BSC;
+  --chart-3: #2B2B5C;
   --chart-4: #121243;
   --chart-5: #020229;
   --sidebar: #020229; /* Navy escuro */
   --sidebar-foreground: #F5CBB7; /* Pêssego claro */
   --sidebar-accent: #A86F56; /* Marrom/Cobre */
   --sidebar-accent-foreground: #F5CBB7; /* Pêssego claro */
-  --sidebar-border: #2B2BSC; /* Azul-marinho */
+  --sidebar-border: #2B2B5C; /* Azul-marinho */
   --sidebar-ring: #A86F56; /* Marrom/Cobre */
 }
 
@@ -142,6 +142,12 @@
   
   html {
     scroll-behavior: smooth;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
   }
   button:not(:disabled),
   [role="button"]:not([aria-disabled="true"]),
@@ -174,8 +180,8 @@
     width: 100%;
     margin-left: auto;
     margin-right: auto;
-    padding-left: 1rem; /* 16px - mobile padding */
-    padding-right: 1rem;
+    padding-left: 1.25rem; /* 20px - mobile padding */
+    padding-right: 1.25rem;
   }
 
   .flex {

@@ -87,7 +87,7 @@ function MacWindow({ title, subtitle, badge, className, children }: MacWindowPro
         />
       )}
       <article
-        className={`overflow-hidden rounded-2xl border border-border/70 bg-card/85 shadow-[0_30px_90px_-50px_rgba(0,0,0,0.75)] ${wrapperClass}`}
+        className={`overflow-hidden rounded-2xl border border-border/70 bg-card/85 shadow-[0_20px_60px_-30px_rgba(0,0,0,0.5)] transition-all duration-300 hover:border-accent/40 hover:shadow-[0_20px_60px_-30px_rgba(168,111,86,0.15)] ${wrapperClass}`}
       >
         <header className="flex items-center justify-between gap-3 border-b border-border/70 bg-background/75 px-4 py-3">
           <div className="flex items-center gap-2">
@@ -112,14 +112,14 @@ function MacWindow({ title, subtitle, badge, className, children }: MacWindowPro
           </div>
 
           <div className="min-w-0 flex-1 text-center">
-            <p className="truncate text-xs font-semibold tracking-wide text-foreground/80">
+            <p className="truncate text-xs font-semibold tracking-wide text-foreground/85">
               {title}
             </p>
-            {subtitle && <p className="truncate text-[11px] text-foreground/60">{subtitle}</p>}
+            {subtitle && <p className="truncate text-xs text-foreground/70">{subtitle}</p>}
           </div>
 
           {badge ? (
-            <span className="rounded-full bg-accent/20 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-accent">
+            <span className="rounded-full bg-accent/20 px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wide text-accent">
               {badge}
             </span>
           ) : (
@@ -128,14 +128,14 @@ function MacWindow({ title, subtitle, badge, className, children }: MacWindowPro
         </header>
 
         {isClosed ? (
-          <div className="flex items-center justify-between gap-3 p-5 text-sm text-foreground/70">
+          <div className="flex items-center justify-between gap-3 p-5 text-sm text-foreground/80">
             <span>Janela fechada.</span>
             <Button size="sm" variant="outline" onClick={() => setIsClosed(false)}>
               Reabrir
             </Button>
           </div>
         ) : isMinimized ? (
-          <div className="flex items-center justify-between gap-3 px-5 py-3 text-xs text-foreground/65">
+          <div className="flex items-center justify-between gap-3 px-5 py-3 text-xs text-foreground/75">
             <span>Janela minimizada.</span>
             <Button size="sm" variant="outline" onClick={() => setIsMinimized(false)}>
               Restaurar
@@ -483,10 +483,10 @@ export default function Home() {
               <h1 className="mb-4 text-5xl font-bold leading-[0.95] text-accent md:text-7xl">
                 Narley Almeida
               </h1>
-              <h2 className="mb-5 text-xl font-semibold text-foreground/90 md:text-2xl">
+              <h2 className="mb-5 text-2xl font-semibold text-foreground/90 md:text-3xl">
                 PMO – IA & Data Governance | Governança de Portfólio | MLOps no setor jurídico
               </h2>
-              <p className="max-w-2xl text-lg leading-relaxed text-foreground/80">
+              <p className="max-w-2xl text-lg leading-relaxed text-foreground/85">
                 Conduzo portfólios de tecnologia com foco em priorização, roadmap, capacidade,
                 riscos e orçamento. No TJPR, lidero serviços com IA/LLMs e MLOps ponta a ponta
                 para acelerar o trâmite processual com segurança, compliance e métricas claras
@@ -520,7 +520,7 @@ export default function Home() {
                 </a>
               </div>
 
-              <div className="mt-8 flex flex-wrap gap-3 text-xs text-foreground/70">
+              <div className="mt-12 flex flex-wrap gap-3 text-xs text-foreground/80">
                 <span className="rounded-full border border-border bg-card/70 px-3 py-1">
                   COBIT / ITIL / ISO / LGPD
                 </span>
@@ -555,7 +555,7 @@ export default function Home() {
               >
                 <div className="grid gap-3 sm:grid-cols-2">
                   <div className="rounded-lg border border-border/70 bg-background/45 p-3">
-                    <p className="mb-1 text-xs uppercase tracking-wide text-foreground/60">
+                    <p className="mb-1 text-xs uppercase tracking-wide text-foreground/70">
                       Módulo
                     </p>
                     <p className="text-sm font-semibold">Jornada em tempo real</p>
@@ -601,16 +601,16 @@ export default function Home() {
             {metrics.map((metric) => (
               <div
                 key={metric.file}
-                className="rounded-xl border border-border/70 bg-background/40 p-4"
+                className="rounded-xl border border-border/70 bg-background/40 p-4 md:p-5"
               >
                 <div className="mb-4 flex items-center gap-1.5">
                   <span className="h-2 w-2 rounded-full bg-[#ff5f57]" />
                   <span className="h-2 w-2 rounded-full bg-[#febc2e]" />
                   <span className="h-2 w-2 rounded-full bg-[#28c840]" />
-                  <span className="ml-2 text-[11px] text-foreground/60">{metric.file}</span>
+                  <span className="ml-2 text-xs text-foreground/70">{metric.file}</span>
                 </div>
                 <p className="text-3xl font-bold text-accent">{metric.value}</p>
-                <p className="mt-1 text-sm text-foreground/70">{metric.label}</p>
+                <p className="mt-1 text-sm text-foreground/80">{metric.label}</p>
               </div>
             ))}
           </div>
@@ -621,16 +621,16 @@ export default function Home() {
         <div className="container grid gap-8 lg:grid-cols-[1.05fr_0.95fr]">
           <div>
             <h2 className="mb-6 flex items-center gap-3 text-4xl font-bold text-accent md:text-5xl">
-              <FileText className="h-10 w-10" />
+              <FileText className="h-8 w-8 md:h-10 md:w-10" />
               Sobre Mim
             </h2>
-            <p className="text-lg leading-relaxed text-foreground/88">
+            <p className="text-lg leading-relaxed text-foreground/90">
               Bacharel em Ciências da Computação, pós em Governança de TI (em andamento) e
               pós em Ciência de Dados e Big Data Analytics (concluída). Atuo no TJPR na
               interseção entre gestão, dados e IA, com foco em entrega de serviços críticos
               com previsibilidade e governança.
             </p>
-            <p className="mt-4 text-foreground/75">
+            <p className="mt-4 text-foreground/80">
               Minha atuação combina governança executiva de portfólio, liderança de times
               multidisciplinares e profundidade técnica em dados, ETL, SQL e analytics para
               suporte à decisão.
@@ -640,19 +640,19 @@ export default function Home() {
           <MacWindow title="profile://narley-almeida.md" subtitle="resumo técnico" badge="about">
             <div className="space-y-4">
               <div className="rounded-lg border border-border/70 bg-background/40 p-3">
-                <p className="text-xs uppercase tracking-wide text-foreground/60">Especialidade</p>
+                <p className="text-xs uppercase tracking-wide text-foreground/70">Especialidade</p>
                 <p className="mt-1 text-sm font-semibold text-foreground/90">
                   Governança de Portfólio + IA + Data Governance
                 </p>
               </div>
               <div className="rounded-lg border border-border/70 bg-background/40 p-3">
-                <p className="text-xs uppercase tracking-wide text-foreground/60">Contexto</p>
+                <p className="text-xs uppercase tracking-wide text-foreground/70">Contexto</p>
                 <p className="mt-1 text-sm font-semibold text-foreground/90">
                   TJPR com integração entre áreas técnicas, jurídicas e de negócio
                 </p>
               </div>
               <div className="rounded-lg border border-border/70 bg-background/40 p-3">
-                <p className="text-xs uppercase tracking-wide text-foreground/60">Modelo de atuação</p>
+                <p className="text-xs uppercase tracking-wide text-foreground/70">Modelo de atuação</p>
                 <p className="mt-1 text-sm font-semibold text-foreground/90">
                   Estratégia, execução e melhoria contínua com rastreabilidade de benefícios.
                 </p>
@@ -665,11 +665,11 @@ export default function Home() {
       <section id="experiencia" className="bg-card/65 py-20 md:py-28">
         <div className="container">
           <h2 className="mb-12 flex items-center gap-3 text-4xl font-bold text-accent md:text-5xl">
-            <Briefcase className="h-10 w-10" />
+            <Briefcase className="h-8 w-8 md:h-10 md:w-10" />
             Experiência Profissional
           </h2>
 
-          <div className="grid gap-6 lg:grid-cols-2">
+          <div className="grid gap-6 md:grid-cols-2">
             {experiencias.map((exp) => (
               <MacWindow
                 key={`${exp.company}-${exp.title}`}
@@ -695,7 +695,7 @@ export default function Home() {
       <section id="governanca" className="py-20 md:py-28">
         <div className="container">
           <h2 className="mb-12 flex items-center gap-3 text-4xl font-bold text-accent md:text-5xl">
-            <Shield className="h-10 w-10" />
+            <Shield className="h-8 w-8 md:h-10 md:w-10" />
             Governança & Liderança
           </h2>
 
@@ -706,7 +706,7 @@ export default function Home() {
                 <ul className="space-y-2 text-sm text-foreground/82">
                   {card.lines.map((line) => (
                     <li key={line} className="flex gap-2">
-                      <Workflow className="mt-0.5 h-4 w-4 shrink-0 text-accent" />
+                      <Workflow className="mt-0.5 h-5 w-5 shrink-0 text-accent" />
                       <span>{line}</span>
                     </li>
                   ))}
@@ -720,7 +720,7 @@ export default function Home() {
       <section id="habilidades" className="bg-card/65 py-20 md:py-28">
         <div className="container">
           <h2 className="mb-12 flex items-center gap-3 text-4xl font-bold text-accent md:text-5xl">
-            <Cpu className="h-10 w-10" />
+            <Cpu className="h-8 w-8 md:h-10 md:w-10" />
             Habilidades
           </h2>
 
@@ -747,7 +747,7 @@ export default function Home() {
       <section id="projetos" className="py-20 md:py-28">
         <div className="container">
           <h2 className="mb-12 flex items-center gap-3 text-4xl font-bold text-accent md:text-5xl">
-            <BarChart3 className="h-10 w-10" />
+            <BarChart3 className="h-8 w-8 md:h-10 md:w-10" />
             Projetos Destacados
           </h2>
 
@@ -826,7 +826,7 @@ export default function Home() {
       <section id="formacao" className="bg-card/65 py-20 md:py-28">
         <div className="container">
           <h2 className="mb-12 flex items-center gap-3 text-4xl font-bold text-accent md:text-5xl">
-            <GraduationCap className="h-10 w-10" />
+            <GraduationCap className="h-8 w-8 md:h-10 md:w-10" />
             Formação
           </h2>
 
@@ -834,7 +834,7 @@ export default function Home() {
             <MacWindow title="education://graduation.md" badge="degree">
               <h3 className="text-xl font-bold text-foreground">Bacharel em Ciências da Computação</h3>
               <p className="mt-1 text-sm font-semibold text-accent">Universidade Estácio de Sá</p>
-              <p className="mt-2 text-sm text-foreground/70">Curitiba | Jan 2019 – Ago 2023</p>
+              <p className="mt-2 text-sm text-foreground/80">Curitiba | Jan 2019 – Ago 2023</p>
             </MacWindow>
 
             <MacWindow title="education://data-analytics.md" badge="concluída">
@@ -842,13 +842,13 @@ export default function Home() {
                 Pós em Ciência de Dados e Big Data Analytics
               </h3>
               <p className="mt-1 text-sm font-semibold text-accent">Universidade Estácio de Sá</p>
-              <p className="mt-2 text-sm text-foreground/70">Curitiba | Jan 2025 – Dez 2025</p>
+              <p className="mt-2 text-sm text-foreground/80">Curitiba | Jan 2025 – Dez 2025</p>
             </MacWindow>
 
             <MacWindow title="education://postgraduate.md" badge="ongoing">
               <h3 className="text-xl font-bold text-foreground">Pós em Governança de TI</h3>
               <p className="mt-1 text-sm font-semibold text-accent">GRAN Faculdade</p>
-              <p className="mt-2 text-sm text-foreground/70">Jul 2025 – Dez 2026 (em andamento)</p>
+              <p className="mt-2 text-sm text-foreground/80">Jul 2025 – Dez 2026 (em andamento)</p>
             </MacWindow>
           </div>
 
@@ -863,7 +863,7 @@ export default function Home() {
                 className="rounded-xl border border-border/70 bg-background/45 px-4 py-3"
               >
                 <p className="text-sm font-semibold text-foreground">{lang.idioma}</p>
-                <p className="text-sm text-foreground/70">{lang.nivel}</p>
+                <p className="text-sm text-foreground/80">{lang.nivel}</p>
               </div>
             ))}
           </div>
@@ -873,13 +873,13 @@ export default function Home() {
       <section id="contato" className="py-20 md:py-28">
         <div className="container">
           <h2 className="mb-6 flex items-center gap-3 text-4xl font-bold text-accent md:text-5xl">
-            <Users className="h-10 w-10" />
+            <Users className="h-8 w-8 md:h-10 md:w-10" />
             Vamos Conversar?
           </h2>
-          <p className="mb-4 max-w-2xl text-xl text-foreground/80">
+          <p className="mb-4 max-w-2xl text-xl text-foreground/85">
             Disponível para posições em PMO de tecnologia, Governança de TI/Dados e IA aplicada.
           </p>
-          <p className="mb-12 text-foreground/70">Curitiba, PR | Remoto/Híbrido</p>
+          <p className="mb-8 text-foreground/80">Curitiba, PR | Remoto/Híbrido</p>
 
           <MacWindow title="contact://narley-almeida.json" badge="online" className="max-w-4xl">
             <div className="flex flex-wrap gap-3">
@@ -935,8 +935,8 @@ export default function Home() {
 
       <footer className="border-t border-border bg-card/70 py-8">
         <div className="container flex flex-col items-center justify-between gap-4 md:flex-row">
-          <p className="text-sm text-foreground/70">© 2025 Narley Almeida. Todos os direitos reservados.</p>
-          <p className="text-sm text-foreground/70">Desenvolvido com React + Tailwind CSS</p>
+          <p className="text-sm text-foreground/80">© 2025 Narley Almeida. Todos os direitos reservados.</p>
+          <p className="text-sm text-foreground/80">Desenvolvido com React + Tailwind CSS</p>
         </div>
       </footer>
     </div>
