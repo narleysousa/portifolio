@@ -19,6 +19,7 @@ import {
   X,
 } from "lucide-react";
 import { useEffect, useState, type ReactNode } from "react";
+import { useLocation } from "wouter";
 
 const CV_URL = `${import.meta.env.BASE_URL}curriculo.pdf`;
 const KRONUS_PREVIEW_URL = `${import.meta.env.BASE_URL}kronus-preview`;
@@ -152,6 +153,7 @@ function MacWindow({ title, subtitle, badge, className, children }: MacWindowPro
 export default function Home() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
+  const [, setLocation] = useLocation();
 
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
@@ -409,11 +411,10 @@ export default function Home() {
               <button
                 key={item.id}
                 onClick={() => scrollToSection(item.id)}
-                className={`rounded-md px-2 py-1 text-sm font-medium transition-colors ${
-                  activeSection === item.id
+                className={`rounded-md px-2 py-1 text-sm font-medium transition-colors ${activeSection === item.id
                     ? "text-accent"
                     : "text-foreground/70 hover:text-foreground"
-                }`}
+                  }`}
               >
                 {item.label}
               </button>
@@ -450,11 +451,10 @@ export default function Home() {
                 <button
                   key={item.id}
                   onClick={() => scrollToSection(item.id)}
-                  className={`text-left py-2 transition-colors ${
-                    activeSection === item.id
+                  className={`text-left py-2 transition-colors ${activeSection === item.id
                       ? "text-accent"
                       : "text-foreground/70 hover:text-foreground"
-                  }`}
+                    }`}
                 >
                   {item.label}
                 </button>
@@ -801,17 +801,31 @@ export default function Home() {
                     </a>
                   )}
                   {p.demo && (
-                    <a
-                      href={p.demo}
-                      target={p.demo.startsWith("http") ? "_blank" : undefined}
-                      rel={p.demo.startsWith("http") ? "noopener noreferrer" : undefined}
-                      className="inline-flex"
-                    >
-                      <Button size="sm" className="gap-2 bg-accent hover:bg-accent/90">
+                    p.demo.startsWith("http") ? (
+                      <a
+                        href={p.demo}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex"
+                      >
+                        <Button size="sm" className="gap-2 bg-accent hover:bg-accent/90">
+                          <TerminalSquare className="h-4 w-4" />
+                          Ver Demo
+                        </Button>
+                      </a>
+                    ) : (
+                      <Button
+                        size="sm"
+                        className="gap-2 bg-accent hover:bg-accent/90"
+                        onClick={() => {
+                          setLocation(p.demo.replace(import.meta.env.BASE_URL, "/"));
+                          window.scrollTo(0, 0);
+                        }}
+                      >
                         <TerminalSquare className="h-4 w-4" />
                         Ver Demo
                       </Button>
-                    </a>
+                    )
                   )}
                   {!p.github && !p.demo && (
                     <span className="text-xs italic text-foreground/50">Links em breve</span>
