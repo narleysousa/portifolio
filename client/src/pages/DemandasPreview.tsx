@@ -85,7 +85,7 @@ export default function DemandasPreview() {
                 </Button>
               </a>
               <a
-                href="https://www.linkedin.com/in/narley-sousa-b95589287/"
+                href="https://www.linkedin.com/in/narley-almeida-de-sousa-b95589287/?skipRedirect=true"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex"

@@ -24,7 +24,7 @@ const CV_URL = `${import.meta.env.BASE_URL}curriculo.pdf`;
 const KRONUS_PREVIEW_URL = `${import.meta.env.BASE_URL}kronus-preview`;
 const DEMANDAS_PREVIEW_URL = `${import.meta.env.BASE_URL}demandas-preview`;
 const GITHUB_URL = "https://github.com/narleysousa";
-const LINKEDIN_URL = "https://www.linkedin.com/in/narley-sousa-b95589287/";
+const LINKEDIN_URL = "https://www.linkedin.com/in/narley-almeida-de-sousa-b95589287/?skipRedirect=true";
 const EMAIL = "narley_almeida@icloud.com";
 const WHATSAPP = "5541985031881";
 
