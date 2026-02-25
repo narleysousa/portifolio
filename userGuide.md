@@ -1,4 +1,4 @@
-# Guia do Portfólio Profissional - Narley Almeida de Sousa
+# Guia do Portfólio Profissional - Narley Almeida
 
 ## Acesso
 

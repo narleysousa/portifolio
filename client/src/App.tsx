@@ -4,13 +4,17 @@ import NotFound from "@/pages/NotFound";
 import { Route, Router, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
+import DemandasPreview from "./pages/DemandasPreview";
 import Home from "./pages/Home";
+import KronusPreview from "./pages/KronusPreview";
 
 function AppRouter() {
   return (
     <Router base={import.meta.env.BASE_URL}>
       <Switch>
       <Route path={"/"} component={Home} />
+      <Route path={"/kronus-preview"} component={KronusPreview} />
+      <Route path={"/demandas-preview"} component={DemandasPreview} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />

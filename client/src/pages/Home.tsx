@@ -1,6 +1,153 @@
 import { Button } from "@/components/ui/button";
-import { Menu, X, Mail, Phone, Linkedin, ChevronDown } from "lucide-react";
-import { useState, useEffect } from "react";
+import {
+  BarChart3,
+  Briefcase,
+  ChevronDown,
+  Cpu,
+  Download,
+  FileText,
+  Github,
+  GraduationCap,
+  Linkedin,
+  Mail,
+  Menu,
+  MessageCircle,
+  Shield,
+  TerminalSquare,
+  Users,
+  Workflow,
+  X,
+} from "lucide-react";
+import { useEffect, useState, type ReactNode } from "react";
+
+const CV_URL = `${import.meta.env.BASE_URL}curriculo.pdf`;
+const KRONUS_PREVIEW_URL = `${import.meta.env.BASE_URL}kronus-preview`;
+const DEMANDAS_PREVIEW_URL = `${import.meta.env.BASE_URL}demandas-preview`;
+const GITHUB_URL = "https://github.com/narleysousa";
+const LINKEDIN_URL = "https://www.linkedin.com/in/narley-sousa-b95589287/";
+const EMAIL = "narley_almeida@icloud.com";
+const WHATSAPP = "5541985031881";
+
+type MacWindowProps = {
+  title: string;
+  subtitle?: string;
+  badge?: string;
+  className?: string;
+  children: ReactNode;
+};
+
+function MacWindow({ title, subtitle, badge, className, children }: MacWindowProps) {
+  const [isClosed, setIsClosed] = useState(false);
+  const [isMinimized, setIsMinimized] = useState(false);
+  const [isMaximized, setIsMaximized] = useState(false);
+
+  useEffect(() => {
+    if (!isMaximized) return;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [isMaximized]);
+
+  const handleClose = () => {
+    if (isClosed) {
+      setIsClosed(false);
+      return;
+    }
+    setIsClosed(true);
+    setIsMinimized(false);
+    setIsMaximized(false);
+  };
+
+  const handleMinimize = () => {
+    setIsClosed(false);
+    setIsMaximized(false);
+    setIsMinimized((prev) => !prev);
+  };
+
+  const handleMaximize = () => {
+    setIsClosed(false);
+    setIsMinimized(false);
+    setIsMaximized((prev) => !prev);
+  };
+
+  const wrapperClass = isMaximized
+    ? "fixed inset-4 z-[70] flex max-h-[calc(100vh-2rem)] flex-col bg-card/95 backdrop-blur-xl"
+    : className ?? "";
+
+  return (
+    <>
+      {isMaximized && (
+        <button
+          type="button"
+          aria-label="Sair da janela maximizada"
+          onClick={() => setIsMaximized(false)}
+          className="fixed inset-0 z-[65] bg-background/70 backdrop-blur-sm"
+        />
+      )}
+      <article
+        className={`overflow-hidden rounded-2xl border border-border/70 bg-card/85 shadow-[0_30px_90px_-50px_rgba(0,0,0,0.75)] ${wrapperClass}`}
+      >
+        <header className="flex items-center justify-between gap-3 border-b border-border/70 bg-background/75 px-4 py-3">
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              aria-label={isClosed ? "Reabrir janela" : "Fechar janela"}
+              onClick={handleClose}
+              className="h-3 w-3 rounded-full bg-[#ff5f57] transition-transform hover:scale-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ff5f57]/50"
+            />
+            <button
+              type="button"
+              aria-label={isMinimized ? "Restaurar janela" : "Minimizar janela"}
+              onClick={handleMinimize}
+              className="h-3 w-3 rounded-full bg-[#febc2e] transition-transform hover:scale-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#febc2e]/50"
+            />
+            <button
+              type="button"
+              aria-label={isMaximized ? "Restaurar janela" : "Maximizar janela"}
+              onClick={handleMaximize}
+              className="h-3 w-3 rounded-full bg-[#28c840] transition-transform hover:scale-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#28c840]/50"
+            />
+          </div>
+
+          <div className="min-w-0 flex-1 text-center">
+            <p className="truncate text-xs font-semibold tracking-wide text-foreground/80">
+              {title}
+            </p>
+            {subtitle && <p className="truncate text-[11px] text-foreground/60">{subtitle}</p>}
+          </div>
+
+          {badge ? (
+            <span className="rounded-full bg-accent/20 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-accent">
+              {badge}
+            </span>
+          ) : (
+            <span className="w-8" />
+          )}
+        </header>
+
+        {isClosed ? (
+          <div className="flex items-center justify-between gap-3 p-5 text-sm text-foreground/70">
+            <span>Janela fechada.</span>
+            <Button size="sm" variant="outline" onClick={() => setIsClosed(false)}>
+              Reabrir
+            </Button>
+          </div>
+        ) : isMinimized ? (
+          <div className="flex items-center justify-between gap-3 px-5 py-3 text-xs text-foreground/65">
+            <span>Janela minimizada.</span>
+            <Button size="sm" variant="outline" onClick={() => setIsMinimized(false)}>
+              Restaurar
+            </Button>
+          </div>
+        ) : (
+          <div className={`p-5 ${isMaximized ? "overflow-y-auto" : ""}`}>{children}</div>
+        )}
+      </article>
+    </>
+  );
+}
 
 export default function Home() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -17,12 +164,23 @@ export default function Home() {
 
   useEffect(() => {
     const handleScroll = () => {
-      const sections = ["home", "sobre", "experiencia", "habilidades", "projetos", "formacao", "contato"];
+      const sections = [
+        "home",
+        "resultados",
+        "sobre",
+        "experiencia",
+        "governanca",
+        "habilidades",
+        "projetos",
+        "formacao",
+        "contato",
+      ];
+
       for (const sectionId of sections) {
         const element = document.getElementById(sectionId);
         if (element) {
           const rect = element.getBoundingClientRect();
-          if (rect.top <= 150 && rect.bottom >= 150) {
+          if (rect.top <= 160 && rect.bottom >= 160) {
             setActiveSection(sectionId);
             break;
           }
@@ -35,30 +193,223 @@ export default function Home() {
   }, []);
 
   const navItems = [
-    { id: "sobre", label: "Sobre Mim" },
+    { id: "sobre", label: "Sobre" },
     { id: "experiencia", label: "Experiência" },
+    { id: "governanca", label: "Governança" },
     { id: "habilidades", label: "Habilidades" },
     { id: "projetos", label: "Projetos" },
     { id: "formacao", label: "Formação" },
     { id: "contato", label: "Contato" },
   ];
 
-  return (
-    <div className="min-h-screen bg-background text-foreground">
-      {/* Navigation */}
-      <nav className="fixed top-0 w-full bg-background/95 backdrop-blur-sm z-50 border-b border-border">
-        <div className="container flex items-center justify-between h-16">
-          <div className="text-2xl font-bold text-accent">
-            NA
-          </div>
+  const metrics = [
+    {
+      value: "10.000+",
+      label: "registros processados por execução",
+      file: "throughput.log",
+    },
+    {
+      value: "98%",
+      label: "taxa de sucesso em pipeline HTTP",
+      file: "healthcheck.json",
+    },
+    {
+      value: "60%",
+      label: "redução no tempo de pesquisa jurisprudencial",
+      file: "search-benchmark.md",
+    },
+    {
+      value: "99%",
+      label: "precisão em identificação de procurações",
+      file: "ocr-validation.txt",
+    },
+  ];
 
-          {/* Desktop Menu */}
-          <div className="hidden md:flex items-center gap-8">
+  const experiencias = [
+    {
+      company: "TJPR",
+      title: "PMO – IA & Data Governance",
+      period: "Ago 2025 – Atual",
+      team: "Assessoria 1ª Vice-Presidência",
+      badge: "Atual",
+      bullets: [
+        "Liderança de serviços com IA/LLMs para classificação, priorização e roteamento de processos judiciais.",
+        "Implantação de MLOps ponta a ponta com versionamento, CI/CD, observabilidade e monitoramento de drift.",
+        "Parceria com áreas jurídicas para engenharia de prompts e RAG/LLMOps on-prem com aderência à LGPD.",
+        "Resultados mensuráveis em produtividade e precisão de tarefas críticas no fluxo processual.",
+      ],
+    },
+    {
+      company: "TJPR",
+      title: "Coordenador de TI — ML & Data Governance",
+      period: "Atuação de liderança técnica",
+      team: "Equipe de Dados, Engenharia e Produto",
+      badge: "Coord",
+      bullets: [
+        "Gestão de equipe multidisciplinar com foco em entrega, qualidade e conformidade de dados.",
+        "Definição de OKRs, priorização de backlog, gestão de riscos e controle de SLAs.",
+        "Implantação de políticas e controles alinhados a COBIT, ITIL, ISO e LGPD.",
+        "Coordenação de curadoria de dados e fine-tuning de GPTs/LLMs para contexto jurídico.",
+      ],
+    },
+    {
+      company: "UFPR",
+      title: "Estagiário em Ciências da Computação",
+      period: "Mai 2021 – Jun 2023",
+      team: "AGTIC – Curitiba, PR",
+      badge: "Base",
+      bullets: [
+        "Suporte técnico-administrativo em TI com triagem de demandas e atendimento de 1º nível conforme SLA.",
+        "Modelagem e organização de bases com SQL, apoio em PostgreSQL/MySQL e controle de acessos.",
+        "Consolidação de dados e automações ETL com Python (Pandas) para relatórios recorrentes.",
+        "Prototipagem inicial em analytics/NLP e documentação padronizada de processos e templates.",
+      ],
+    },
+  ];
+
+  const governancaCards = [
+    {
+      title: "Gestão de TI & Estratégia",
+      file: "governance-policies.yaml",
+      lines: [
+        "Governança de portfólio com priorização, roadmap, capacidade e orçamento.",
+        "Desdobramento de OKRs, KPIs e SLAs com cadência executiva.",
+        "Comitês de direção e decisões TI-negócio com rastreabilidade.",
+      ],
+    },
+    {
+      title: "Segurança, Dados & Execução",
+      file: "delivery-playbook.md",
+      lines: [
+        "Arquiteturas RAG/LLMOps on-prem com security e privacy by design.",
+        "LGPD na prática: minimização, base legal, logging, retenção e controles.",
+        "Liderança de squads multidisciplinares com gestão de performance e coaching.",
+      ],
+    },
+  ];
+
+  const skillGroups = [
+    {
+      title: "Dados & Analytics",
+      file: "stack/governance.ts",
+      tags: ["SQL", "PostgreSQL/MySQL", "Python", "Pandas", "ETL", "Data Modeling"],
+    },
+    {
+      title: "IA, LLMOps & MLOps",
+      file: "stack/mlops.ts",
+      tags: ["RAG", "LLM", "Prompt Engineering", "Drift Monitoring", "CI/CD", "Observability"],
+    },
+    {
+      title: "Gestão & Operação",
+      file: "stack/delivery.ts",
+      tags: ["COBIT", "ITIL", "ISO", "LGPD", "OKRs/KPIs/SLAs", "Roadmap & Backlog"],
+    },
+  ];
+
+  const projetos = [
+    {
+      id: "pipeline",
+      titulo: "Pipeline de Extração de Dados HTTP",
+      tag: "Python",
+      problema: "Integração manual de grandes volumes de dados com endpoints externos.",
+      solucao: "Pipeline automatizado com validação e tratamento robusto de erros.",
+      stack: ["Python", "CSV", "HTTP", "Error Handling"],
+      features: [
+        "Validação inteligente de CSV",
+        "Tratamento de múltiplos status HTTP",
+        "Processamento em larga escala",
+      ],
+      impacto: "10.000+ registros | 98% sucesso | -80% tempo de integração",
+      github: null,
+      demo: null,
+      file: "projects/http-pipeline.py",
+    },
+    {
+      id: "agente",
+      titulo: "Agente de Pesquisa de Decisões Judiciais",
+      tag: "IA/Copilot",
+      problema: "Pesquisa jurisprudencial lenta e pouco sistemática.",
+      solucao: "Sistema com Copilot 365, busca semântica e RAG para decisões.",
+      stack: ["Copilot 365", "RAG", "LLM", "NLP"],
+      features: [
+        "Pesquisa por similaridade semântica",
+        "Elaboração de minutas com jurisprudência",
+        "Integração com contexto jurídico",
+      ],
+      impacto: "-60% tempo de pesquisa | Consistência decisória | Qualidade de minutas",
+      github: null,
+      demo: null,
+      file: "projects/juris-rag.ts",
+    },
+    {
+      id: "localizador",
+      titulo: "Localizador Inteligente de Documentos PDF",
+      tag: "Python",
+      problema: "Localização manual de documentos em acervos grandes.",
+      solucao: "Sistema com OCR e busca por palavras-chave/regex.",
+      stack: ["Python", "Tesseract OCR", "PDF", "Regex"],
+      features: [
+        "Extração com fallback OCR",
+        "Busca configurável por regex",
+        "Relatórios detalhados de status",
+      ],
+      impacto: "-70% tempo | 99% precisão na identificação",
+      github: null,
+      demo: null,
+      file: "projects/document-locator.py",
+    },
+    {
+      id: "kronus",
+      titulo: "Kronus – Gestão de Ponto Inteligente",
+      tag: "React/TS",
+      problema: "Gestão de ponto fragmentada e manual.",
+      solucao: "App multiplataforma com Firebase em tempo real.",
+      stack: ["React 18", "TypeScript", "Firebase", "Firestore"],
+      features: ["Dashboard em tempo real", "Gestão de férias e feriados", "Web, iOS, Android"],
+      impacto: "100% automatização | Multiplataforma",
+      github: null,
+      demo: KRONUS_PREVIEW_URL,
+      file: "projects/kronus-preview.tsx",
+    },
+    {
+      id: "demandas",
+      titulo: "Gestão de Demandas",
+      tag: "React/TS",
+      problema: "Demandas dispersas sem visibilidade de progresso.",
+      solucao: "App com filtros, progresso e sincronização Firestore.",
+      stack: ["React 18", "TypeScript", "Firebase", "Firestore"],
+      features: [
+        "Formulário com prioridade e categoria",
+        "Alertas de demandas antigas",
+        "Resumo por prioridade",
+      ],
+      impacto: "Centralização | Rastreamento em tempo real",
+      github: null,
+      demo: DEMANDAS_PREVIEW_URL,
+      file: "projects/gestao-demandas.tsx",
+    },
+  ];
+
+  return (
+    <div className="relative min-h-screen overflow-x-hidden bg-background text-foreground">
+      <div className="pointer-events-none fixed inset-0 -z-10 bg-[radial-gradient(circle_at_top_left,rgba(168,111,86,0.25),transparent_36%),radial-gradient(circle_at_bottom_right,rgba(245,203,183,0.15),transparent_40%)]" />
+      <div className="pointer-events-none fixed inset-0 -z-10 opacity-30 [background-image:linear-gradient(rgba(245,203,183,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(245,203,183,0.05)_1px,transparent_1px)] [background-size:42px_42px]" />
+
+      <nav className="fixed top-0 z-50 w-full border-b border-border bg-background/88 backdrop-blur-md">
+        <div className="container flex h-16 items-center justify-between">
+          <button
+            onClick={() => scrollToSection("home")}
+            className="text-2xl font-extrabold tracking-tight text-accent transition-opacity hover:opacity-90"
+          >
+            NA
+          </button>
+
+          <div className="hidden items-center gap-5 md:flex">
             {navItems.map((item) => (
               <button
                 key={item.id}
                 onClick={() => scrollToSection(item.id)}
-                className={`text-sm font-medium transition-colors ${
+                className={`rounded-md px-2 py-1 text-sm font-medium transition-colors ${
                   activeSection === item.id
                     ? "text-accent"
                     : "text-foreground/70 hover:text-foreground"
@@ -67,21 +418,34 @@ export default function Home() {
                 {item.label}
               </button>
             ))}
+            <a href={CV_URL} download className="hidden sm:inline-flex">
+              <Button variant="outline" size="sm" className="gap-2">
+                <Download className="h-4 w-4" />
+                Baixar CV
+              </Button>
+            </a>
+            <Button
+              size="sm"
+              className="gap-2 bg-accent hover:bg-accent/90"
+              onClick={() => scrollToSection("contato")}
+            >
+              <MessageCircle className="h-4 w-4" />
+              Falar comigo
+            </Button>
           </div>
 
-          {/* Mobile Menu Button */}
           <button
-            className="md:hidden p-2"
+            className="p-2 md:hidden"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            aria-label="Abrir menu"
           >
             {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
 
-        {/* Mobile Menu */}
         {mobileMenuOpen && (
-          <div className="md:hidden border-t border-border bg-background">
-            <div className="container py-4 flex flex-col gap-4">
+          <div className="border-t border-border bg-background md:hidden">
+            <div className="container flex flex-col gap-4 py-4">
               {navItems.map((item) => (
                 <button
                   key={item.id}
@@ -95,46 +459,135 @@ export default function Home() {
                   {item.label}
                 </button>
               ))}
+              <a href={CV_URL} download>
+                <Button variant="outline" className="w-full gap-2">
+                  <Download className="h-4 w-4" />
+                  Baixar CV
+                </Button>
+              </a>
+              <Button
+                className="w-full gap-2 bg-accent"
+                onClick={() => scrollToSection("contato")}
+              >
+                Falar comigo
+              </Button>
             </div>
           </div>
         )}
       </nav>
 
-      {/* Hero Section */}
-      <section id="home" className="pt-32 pb-20 md:pt-40 md:pb-32">
+      <section id="home" className="pt-32 pb-20 md:pt-40 md:pb-28">
         <div className="container">
-          <div className="max-w-3xl">
-            <h1 className="text-5xl md:text-7xl font-bold mb-6 text-accent">
-              Narley Almeida
-            </h1>
-            <h2 className="text-2xl md:text-3xl font-semibold mb-4 text-foreground/90">
-              Especialista em Governança de TI | Project Management Officer (PMO) – IA & Data Governance
-            </h2>
-            <p className="text-lg md:text-xl text-foreground/80 mb-8 leading-relaxed">
-              Especialista em Governança de TI com expertise em gerenciamento de projetos de grande porte, conformidade regulatória (COBIT, ITIL, ISO, LGPD) e transformação digital. Profissional qualificado com perfil de liderança (Gerente, Coordenador, Senior, Governance) e excelente conduta profissional. Complemento expertise em Inteligência Artificial e MLOps para soluções inovadoras em ambientes complexos.
-            </p>
-            <div className="flex gap-4 flex-wrap">
-              <Button
-                onClick={() => scrollToSection("projetos")}
-                className="bg-accent hover:bg-accent/90 text-background font-semibold"
+          <div className="grid items-start gap-10 lg:grid-cols-[1.1fr_0.9fr]">
+            <div>
+              <h1 className="mb-4 text-5xl font-bold leading-[0.95] text-accent md:text-7xl">
+                Narley Almeida
+              </h1>
+              <h2 className="mb-5 text-xl font-semibold text-foreground/90 md:text-2xl">
+                PMO – IA & Data Governance | Governança de Portfólio | MLOps no setor jurídico
+              </h2>
+              <p className="max-w-2xl text-lg leading-relaxed text-foreground/80">
+                Conduzo portfólios de tecnologia com foco em priorização, roadmap, capacidade,
+                riscos e orçamento. No TJPR, lidero serviços com IA/LLMs e MLOps ponta a ponta
+                para acelerar o trâmite processual com segurança, compliance e métricas claras
+                de valor.
+              </p>
+
+              <div className="mt-8 flex flex-wrap gap-3">
+                <Button
+                  onClick={() => scrollToSection("projetos")}
+                  className="gap-2 bg-accent font-semibold text-background hover:bg-accent/90"
+                >
+                  <Briefcase className="h-4 w-4" />
+                  Explorar Projetos
+                </Button>
+                <a href={CV_URL} download className="inline-flex">
+                  <Button variant="outline" className="gap-2 border-accent text-accent">
+                    <Download className="h-4 w-4" />
+                    Baixar CV
+                  </Button>
+                </a>
+                <a
+                  href={LINKEDIN_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex"
+                >
+                  <Button variant="outline" className="gap-2 border-accent text-accent">
+                    <Linkedin className="h-4 w-4" />
+                    LinkedIn
+                  </Button>
+                </a>
+              </div>
+
+              <div className="mt-8 flex flex-wrap gap-3 text-xs text-foreground/70">
+                <span className="rounded-full border border-border bg-card/70 px-3 py-1">
+                  COBIT / ITIL / ISO / LGPD
+                </span>
+                <span className="rounded-full border border-border bg-card/70 px-3 py-1">
+                  RAG + LLMOps + MLOps + Observability
+                </span>
+                <span className="rounded-full border border-border bg-card/70 px-3 py-1">
+                  PMO com OKRs / KPIs / SLAs
+                </span>
+              </div>
+            </div>
+
+            <div className="space-y-5">
+              <MacWindow
+                title="terminal://impact-run.log"
+                subtitle="execução em tempo real"
+                badge="running"
               >
-                Conhecer Projetos
-              </Button>
-              <Button
-                onClick={() => scrollToSection("contato")}
-                variant="outline"
-                className="border-accent text-accent hover:bg-accent/10"
+                <div className="space-y-2 font-mono text-sm">
+                  <p className="text-emerald-300">$ iniciar_pipeline --dataset judicial_case_batch.csv</p>
+                  <p className="text-foreground/85">[ok] 10.000+ registros validados</p>
+                  <p className="text-foreground/85">[ok] 98% de sucesso em integração HTTP</p>
+                  <p className="text-foreground/85">[ok] pesquisa jurisprudencial -60%</p>
+                  <p className="text-foreground/85">[ok] compliance LGPD: ativo</p>
+                </div>
+              </MacWindow>
+
+              <MacWindow
+                title="workspace://modules/kronus-preview.tsx"
+                subtitle="janelas de produto"
+                badge="preview"
               >
-                Entrar em Contato
-              </Button>
+                <div className="grid gap-3 sm:grid-cols-2">
+                  <div className="rounded-lg border border-border/70 bg-background/45 p-3">
+                    <p className="mb-1 text-xs uppercase tracking-wide text-foreground/60">
+                      Módulo
+                    </p>
+                    <p className="text-sm font-semibold">Jornada em tempo real</p>
+                  </div>
+                  <div className="rounded-lg border border-border/70 bg-background/45 p-3">
+                    <p className="mb-1 text-xs uppercase tracking-wide text-foreground/60">
+                      Módulo
+                    </p>
+                    <p className="text-sm font-semibold">Escalas e calendário</p>
+                  </div>
+                  <div className="rounded-lg border border-border/70 bg-background/45 p-3">
+                    <p className="mb-1 text-xs uppercase tracking-wide text-foreground/60">
+                      Módulo
+                    </p>
+                    <p className="text-sm font-semibold">Auditoria e compliance</p>
+                  </div>
+                  <div className="rounded-lg border border-border/70 bg-background/45 p-3">
+                    <p className="mb-1 text-xs uppercase tracking-wide text-foreground/60">
+                      Módulo
+                    </p>
+                    <p className="text-sm font-semibold">Painel executivo</p>
+                  </div>
+                </div>
+              </MacWindow>
             </div>
           </div>
 
-          {/* Scroll Indicator */}
-          <div className="mt-16 flex justify-center">
+          <div className="mt-14 flex justify-center">
             <button
-              onClick={() => scrollToSection("sobre")}
+              onClick={() => scrollToSection("resultados")}
               className="animate-bounce text-accent"
+              aria-label="Ir para resultados"
             >
               <ChevronDown size={32} />
             </button>
@@ -142,588 +595,348 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Sobre Mim */}
-      <section id="sobre" className="py-20 md:py-32 bg-card">
+      <section id="resultados" className="border-y border-border bg-card/70 py-12 md:py-16">
         <div className="container">
-          <h2 className="text-4xl md:text-5xl font-bold mb-12 text-accent">
-            Sobre Mim
-          </h2>
-          <div className="max-w-3xl space-y-6 text-lg text-foreground/90 leading-relaxed">
-            <p>
-              Sou especialista em Governança de TI com bacharelado em Ciências da Computação e pós-graduações em andamento em Governança de TI e Ciência de Dados & Big Data Analytics. Meu foco principal é a Governança de TI e áreas correlatas com gerenciamento de projetos de TI de grande porte, onde desenvolvo constantemente competências em liderança estratégica, conformidade regulatória (COBIT, ITIL, ISO, LGPD) e transformação digital. Atuo na interseção entre gestão estratégica e dados, liderando equipes multidisciplinares na estruturação de governança de TI/dados alinhada aos frameworks mais rigorosos.
-            </p>
-            <p>
-              Atualmente, como Machine Learning Specialist no Tribunal de Justiça do Estado do Paraná, aplico minha expertise em Governança de TI na implantação de serviços automatizados com IA/LLMs para acelerar o processamento de processos judiciais. Estruturei pipelines completos de MLOps (versionamento, monitoramento de drift, CI/CD) e observabilidade de modelos em produção, garantindo segurança, privacidade e conformidade regulatória. Meu perfil de liderança inclui experiência em gestão de equipes multidisciplinares, definição de OKRs/SLAs, rituais ágeis e governança de dados com foco em conformidade e gestão de riscos.
-            </p>
-            <p>
-              Minha experiência em Governança de TI combina gestão de riscos, conformidade regulatória e melhoria contínua com forte orientação a resultados em ambientes de alta complexidade. Sou especialista em definição de políticas, controles, arquitetura de TI e planejamento estratégico. Como profissional qualificado com excelente conduta profissional, busco agregar valor estratégico às organizações através da entrega de projetos de grande porte, desenvolvimento de soluções inovadoras em Governança de TI e liderança de transformação digital.
-            </p>
-            <p className="text-base text-accent font-semibold border-l-4 border-accent pl-4">
-              Perfil Profissional: Gerente de TI | Coordenador de Projetos | Senior em Governança | Especialista em Conformidade e Gestão de Riscos | Líder de Transformação Digital
-            </p>
-
-            {/* Governança e Gerenciamento */}
-            <div>
-              <h3 className="text-xl font-bold text-accent mb-4">Governança & Gerenciamento de Projetos</h3>
-              <ul className="space-y-2 text-foreground/80">
-                <li>✓ Governança de TI e Dados (Frameworks)</li>
-                <li>✓ Gerenciamento de riscos e compliance</li>
-                <li>✓ Entrega de projetos de grande porte</li>
-                <li>✓ Gestão de mudanças organizacionais</li>
-                <li>✓ Arquitetura e planejamento de TI</li>
-                <li>✓ Transformação digital e inovação</li>
-              </ul>
-            </div>
+          <div className="grid gap-4 md:grid-cols-4">
+            {metrics.map((metric) => (
+              <div
+                key={metric.file}
+                className="rounded-xl border border-border/70 bg-background/40 p-4"
+              >
+                <div className="mb-4 flex items-center gap-1.5">
+                  <span className="h-2 w-2 rounded-full bg-[#ff5f57]" />
+                  <span className="h-2 w-2 rounded-full bg-[#febc2e]" />
+                  <span className="h-2 w-2 rounded-full bg-[#28c840]" />
+                  <span className="ml-2 text-[11px] text-foreground/60">{metric.file}</span>
+                </div>
+                <p className="text-3xl font-bold text-accent">{metric.value}</p>
+                <p className="mt-1 text-sm text-foreground/70">{metric.label}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Experiência */}
-      <section id="experiencia" className="py-20 md:py-32">
+      <section id="sobre" className="py-20 md:py-28">
+        <div className="container grid gap-8 lg:grid-cols-[1.05fr_0.95fr]">
+          <div>
+            <h2 className="mb-6 flex items-center gap-3 text-4xl font-bold text-accent md:text-5xl">
+              <FileText className="h-10 w-10" />
+              Sobre Mim
+            </h2>
+            <p className="text-lg leading-relaxed text-foreground/88">
+              Bacharel em Ciências da Computação, pós em Governança de TI (em andamento) e
+              pós em Ciência de Dados e Big Data Analytics (concluída). Atuo no TJPR na
+              interseção entre gestão, dados e IA, com foco em entrega de serviços críticos
+              com previsibilidade e governança.
+            </p>
+            <p className="mt-4 text-foreground/75">
+              Minha atuação combina governança executiva de portfólio, liderança de times
+              multidisciplinares e profundidade técnica em dados, ETL, SQL e analytics para
+              suporte à decisão.
+            </p>
+          </div>
+
+          <MacWindow title="profile://narley-almeida.md" subtitle="resumo técnico" badge="about">
+            <div className="space-y-4">
+              <div className="rounded-lg border border-border/70 bg-background/40 p-3">
+                <p className="text-xs uppercase tracking-wide text-foreground/60">Especialidade</p>
+                <p className="mt-1 text-sm font-semibold text-foreground/90">
+                  Governança de Portfólio + IA + Data Governance
+                </p>
+              </div>
+              <div className="rounded-lg border border-border/70 bg-background/40 p-3">
+                <p className="text-xs uppercase tracking-wide text-foreground/60">Contexto</p>
+                <p className="mt-1 text-sm font-semibold text-foreground/90">
+                  TJPR com integração entre áreas técnicas, jurídicas e de negócio
+                </p>
+              </div>
+              <div className="rounded-lg border border-border/70 bg-background/40 p-3">
+                <p className="text-xs uppercase tracking-wide text-foreground/60">Modelo de atuação</p>
+                <p className="mt-1 text-sm font-semibold text-foreground/90">
+                  Estratégia, execução e melhoria contínua com rastreabilidade de benefícios.
+                </p>
+              </div>
+            </div>
+          </MacWindow>
+        </div>
+      </section>
+
+      <section id="experiencia" className="bg-card/65 py-20 md:py-28">
         <div className="container">
-          <h2 className="text-4xl md:text-5xl font-bold mb-12 text-accent">
+          <h2 className="mb-12 flex items-center gap-3 text-4xl font-bold text-accent md:text-5xl">
+            <Briefcase className="h-10 w-10" />
             Experiência Profissional
           </h2>
 
-          <div className="space-y-12 max-w-3xl">
-            {/* Cargo 1 */}
-            <div className="border-l-4 border-accent pl-8 pb-8">
-              <h3 className="text-2xl font-bold text-foreground mb-2">
-                Project Management Officer (PMO) – IA & Data Governance
-              </h3>
-              <p className="text-accent font-semibold mb-1">
-                Assessoria de Recursos da 1ª Vice-Presidência do Tribunal de Justiça do Estado do Paraná (TJPR)
-              </p>
-              <p className="text-foreground/70 text-sm mb-4">
-                Agosto de 2025 - Atual | Curitiba, PR
-              </p>
-              <ul className="space-y-2 text-foreground/80">
-                <li className="flex gap-3">
-                  <span className="text-accent">▸</span>
-                  <span>Liderança na implementação de serviços automatizados com IA/LLMs para classificação, priorização e roteamento de processos judiciais, reduzindo gargalos em larga escala</span>
-                </li>
-                <li className="flex gap-3">
-                  <span className="text-accent">▸</span>
-                  <span>Estruturação de pipelines de MLOps de ponta a ponta (versionamento de modelos/dados, monitoramento de drift, CI/CD) e observabilidade de modelos para produção contínua e segura</span>
-                </li>
-                <li className="flex gap-3">
-                  <span className="text-accent">▸</span>
-                  <span>Parceria com áreas jurídicas para engenharia de prompts e desenho de RAG/LLMops on-prem, garantindo segurança, privacidade e aderência à LGPD</span>
-                </li>
-                <li className="flex gap-3">
-                  <span className="text-accent">▸</span>
-                  <span>Gestão de equipe multidisciplinar (dados, engenharia, produto) focada em ML e conformidade de dados (Data Governance & Compliance)</span>
-                </li>
-                <li className="flex gap-3">
-                  <span className="text-accent">▸</span>
-                  <span>Definição e acompanhamento de OKRs, priorização de backlog e SLAs; condução de rituais ágeis (planning, review, retrospectiva) e gestão de riscos</span>
-                </li>
-                <li className="flex gap-3">
-                  <span className="text-accent">▸</span>
-                  <span>Implantação de políticas e controles de governança de TI/dados alinhados a COBIT, ITIL, ISO e LGPD, equilibrando inovação e compliance</span>
-                </li>
-                <li className="flex gap-3">
-                  <span className="text-accent">▸</span>
-                  <span>Coordenação de iniciativas de fine-tuning de GPTs/LLMs locais e curadoria de dados para aumentar a assertividade das respostas em contexto jurídico</span>
-                </li>
-                <li className="flex gap-3">
-                  <span className="text-accent">▸</span>
-                  <span>Resultados mensuráveis: redução de tempo de triagem e aumento da precisão em tarefas críticas (ex.: identificação de classe/assunto) com ganhos de produtividade</span>
-                </li>
-              </ul>
-            </div>
-
-            {/* Cargo 1.1 - Promoção */}
-            <div className="border-l-4 border-accent pl-8">
-              <h3 className="text-2xl font-bold text-foreground mb-2">
-                Senior Data Engineer
-              </h3>
-              <p className="text-accent font-semibold mb-1">
-                Tribunal de Justiça do Estado do Paraná
-              </p>
-              <p className="text-foreground/70 text-sm mb-4">
-                Dezembro de 2025 - Atual | Curitiba, PR
-              </p>
-              <ul className="space-y-2 text-foreground/80">
-                <li className="flex gap-3">
-                  <span className="text-accent">▸</span>
-                  <span>Promoção reconhecendo expertise em arquitetura de dados, pipelines de MLOps e liderança técnica em projetos de IA/Governança</span>
-                </li>
-                <li className="flex gap-3">
-                  <span className="text-accent">▸</span>
-                  <span>Gestão de tecnologias Python e arquitetura de soluções de dados em larga escala</span>
-                </li>
-                <li className="flex gap-3">
-                  <span className="text-accent">▸</span>
-                  <span>Mentoria técnica de equipes multidisciplinares em práticas de engenharia de dados e conformidade</span>
-                </li>
-              </ul>
-            </div>
-
-            {/* Cargo 2 */}
-            <div className="border-l-4 border-accent pl-8">
-              <h3 className="text-2xl font-bold text-foreground mb-2">
-                Estagiário em Ciências da Computação
-              </h3>
-              <p className="text-accent font-semibold mb-1">
-                AGTIC - Universidade Federal do Paraná
-              </p>
-              <p className="text-foreground/70 text-sm mb-4">
-                Maio de 2021 - Junho de 2023 | Curitiba, PR
-              </p>
-              <ul className="space-y-2 text-foreground/80">
-                <li className="flex gap-3">
-                  <span className="text-accent">▸</span>
-                  <span>Suporte técnico-administrativo com foco em organização de acervos, gestão de dados e prototipagem de soluções de IA/analytics</span>
-                </li>
-                <li className="flex gap-3">
-                  <span className="text-accent">▸</span>
-                  <span>Modelagem e manutenção de painéis executivos com tabelas dinâmicas, fórmulas e gráficos</span>
-                </li>
-                <li className="flex gap-3">
-                  <span className="text-accent">▸</span>
-                  <span>Desenvolvimento de scripts em Python (Pandas) para limpeza, junção e geração de relatórios recorrentes</span>
-                </li>
-                <li className="flex gap-3">
-                  <span className="text-accent">▸</span>
-                  <span>Prototipagem de notebooks para classificação e análise exploratória com pré-processamento de texto (NLP básico)</span>
-                </li>
-              </ul>
-            </div>
+          <div className="grid gap-6 lg:grid-cols-2">
+            {experiencias.map((exp) => (
+              <MacWindow
+                key={`${exp.company}-${exp.title}`}
+                title={`${exp.company} · ${exp.title}`}
+                subtitle={exp.period}
+                badge={exp.badge}
+              >
+                <p className="mb-3 text-sm font-semibold text-accent">{exp.team}</p>
+                <ul className="space-y-2 text-sm text-foreground/82">
+                  {exp.bullets.map((bullet) => (
+                    <li key={bullet} className="flex gap-2">
+                      <span className="mt-1 h-1.5 w-1.5 rounded-full bg-accent" />
+                      <span>{bullet}</span>
+                    </li>
+                  ))}
+                </ul>
+              </MacWindow>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Habilidades */}
-      <section id="habilidades" className="py-20 md:py-32 bg-card">
+      <section id="governanca" className="py-20 md:py-28">
         <div className="container">
-          <h2 className="text-4xl md:text-5xl font-bold mb-12 text-accent">
-            Habilidades e Competências
+          <h2 className="mb-12 flex items-center gap-3 text-4xl font-bold text-accent md:text-5xl">
+            <Shield className="h-10 w-10" />
+            Governança & Liderança
           </h2>
 
-          <div className="grid md:grid-cols-2 gap-8 max-w-4xl">
-            {/* Governança - PRIMEIRO */}
-            <div>
-              <h3 className="text-xl font-bold text-accent mb-4 border-b-2 border-accent pb-2">Governança & Gerenciamento de Projetos</h3>
-              <ul className="space-y-2 text-foreground/80">
-                <li>✓ Governança de TI e Dados (COBIT, ITIL, ISO)</li>
-                <li>✓ Gerenciamento de riscos e compliance</li>
-                <li>✓ Entrega de projetos de grande porte</li>
-                <li>✓ Gestão de mudanças organizacionais</li>
-                <li>✓ Arquitetura e planejamento de TI</li>
-                <li>✓ Transformação digital e inovação</li>
-              </ul>
-            </div>
-
-            {/* Gestão */}
-            <div>
-              <h3 className="text-xl font-bold text-accent mb-4">Gestão de TI & Estratégia</h3>
-              <ul className="space-y-2 text-foreground/80">
-                <li>✓ Propriedade de portfólio e roadmap</li>
-                <li>✓ Definição de OKRs, KPIs e SLAs</li>
-                <li>✓ Governança de TI (COBIT, ITIL, ISO)</li>
-                <li>✓ Conformidade regulatória (LGPD)</li>
-                <li>✓ Gerenciamento de projetos de TI de grande porte</li>
-                <li>✓ Alinhamento estratégico de TI com negócio</li>
-              </ul>
-            </div>
-
-            {/* Operações */}
-            <div>
-              <h3 className="text-xl font-bold text-accent mb-4">Entrega de Serviços & Operações</h3>
-              <ul className="space-y-2 text-foreground/80">
-                <li>✓ Implementação de serviços com IA/LLMs</li>
-                <li>✓ MLOps de ponta a ponta</li>
-                <li>✓ Observabilidade e monitoramento</li>
-                <li>✓ Arquiteturas on-premise de RAG/LLMOps</li>
-              </ul>
-            </div>
-
-            {/* Segurança */}
-            <div>
-              <h3 className="text-xl font-bold text-accent mb-4">Segurança & Conformidade</h3>
-              <ul className="space-y-2 text-foreground/80">
-                <li>✓ Design de segurança by design</li>
-                <li>✓ Conformidade LGPD</li>
-                <li>✓ Gestão de riscos e políticas</li>
-                <li>✓ Hardening de processos</li>
-              </ul>
-            </div>
-
-            {/* Dados */}
-            <div>
-              <h3 className="text-xl font-bold text-accent mb-4">Liderança em Dados & Analytics</h3>
-              <ul className="space-y-2 text-foreground/80">
-                <li>✓ Curadoria de dados e fine-tuning de LLMs</li>
-                <li>✓ Modelagem de dados e ETL/automação</li>
-                <li>✓ Analytics para suporte à decisão</li>
-                <li>✓ Dashboards executivos</li>
-              </ul>
-            </div>
-
-            {/* Técnicas */}
-            <div>
-              <h3 className="text-xl font-bold text-accent mb-4">Ferramentas Técnicas</h3>
-              <ul className="space-y-2 text-foreground/80">
-                <li>✓ Python, SQL, Pandas, Jupyter</li>
-                <li>✓ PostgreSQL, MySQL</li>
-                <li>✓ Git, CI/CD, Observability</li>
-                <li>✓ NLP, Classificação, EDA</li>
-              </ul>
-            </div>
-
-            {/* Liderança */}
-            <div>
-              <h3 className="text-xl font-bold text-accent mb-4">Pessoas & Execução</h3>
-              <ul className="space-y-2 text-foreground/80">
-                <li>✓ Liderança de times multidisciplinares</li>
-                <li>✓ Cerimônias ágeis (planning, review, retro)</li>
-                <li>✓ Gestão de performance e coaching</li>
-                <li>✓ Comunicação técnica e de negócio</li>
-                <li>✓ Perfil de Gerente, Coordenador e Senior</li>
-                <li>✓ Excelente conduta profissional e ética</li>
-              </ul>
-            </div>
+          <div className="grid gap-6 md:grid-cols-2">
+            {governancaCards.map((card) => (
+              <MacWindow key={card.file} title={`workspace://${card.file}`} badge="policy">
+                <h3 className="mb-3 text-lg font-bold text-foreground">{card.title}</h3>
+                <ul className="space-y-2 text-sm text-foreground/82">
+                  {card.lines.map((line) => (
+                    <li key={line} className="flex gap-2">
+                      <Workflow className="mt-0.5 h-4 w-4 shrink-0 text-accent" />
+                      <span>{line}</span>
+                    </li>
+                  ))}
+                </ul>
+              </MacWindow>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Projetos */}
-      <section id="projetos" className="py-20 md:py-32">
+      <section id="habilidades" className="bg-card/65 py-20 md:py-28">
         <div className="container">
-          <h2 className="text-4xl md:text-5xl font-bold mb-12 text-accent">
+          <h2 className="mb-12 flex items-center gap-3 text-4xl font-bold text-accent md:text-5xl">
+            <Cpu className="h-10 w-10" />
+            Habilidades
+          </h2>
+
+          <div className="grid gap-6 md:grid-cols-3">
+            {skillGroups.map((group) => (
+              <MacWindow key={group.file} title={group.file} badge="stack">
+                <h3 className="mb-4 text-lg font-bold text-foreground">{group.title}</h3>
+                <div className="flex flex-wrap gap-2">
+                  {group.tags.map((tag) => (
+                    <span
+                      key={tag}
+                      className="rounded-full border border-accent/25 bg-accent/12 px-2.5 py-1 text-xs font-medium text-accent"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              </MacWindow>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="projetos" className="py-20 md:py-28">
+        <div className="container">
+          <h2 className="mb-12 flex items-center gap-3 text-4xl font-bold text-accent md:text-5xl">
+            <BarChart3 className="h-10 w-10" />
             Projetos Destacados
           </h2>
 
-          <div className="grid md:grid-cols-2 gap-8 max-w-5xl">
-            {/* Projeto 1 - Pipeline de Extração (PRIMEIRO) */}
-            <div className="bg-card border border-border rounded-lg p-8 hover:border-accent transition-colors md:col-span-2 lg:col-span-1">
-              <div className="flex items-start justify-between mb-4">
-                <h3 className="text-2xl font-bold text-foreground">
-                  Pipeline de Extração de Dados HTTP
-                </h3>
-                <span className="text-xs bg-accent/20 text-accent px-3 py-1 rounded-full">
-                  Python
-                </span>
-              </div>
-              <p className="text-foreground/80 mb-6">
-                Pipeline robusto de automação que lê dados de arquivos CSV, processa cada registro com validação inteligente e realiza requisições HTTP para endpoints externos com tratamento avançado de erros e fallbacks automáticos.
-              </p>
-              <div className="space-y-3 mb-6">
-                <div>
-                  <p className="text-sm text-accent font-semibold mb-2">Tecnologias:</p>
-                  <div className="flex flex-wrap gap-2">
-                    <span className="text-xs bg-primary/20 text-accent px-2 py-1 rounded">Python</span>
-                    <span className="text-xs bg-primary/20 text-accent px-2 py-1 rounded">CSV Processing</span>
-                    <span className="text-xs bg-primary/20 text-accent px-2 py-1 rounded">HTTP Requests</span>
-                    <span className="text-xs bg-primary/20 text-accent px-2 py-1 rounded">Error Handling</span>
-                  </div>
-                </div>
-              </div>
-              <div className="space-y-2 text-foreground/80 text-sm mb-6">
-                <p>✓ Leitura e validação inteligente de arquivos CSV com detecção de erros</p>
-                <p>✓ Requisições HTTP com tratamento robusto de múltiplos códigos de status (200, 400, 500, TOKEN_EXPIRADO, etc.)</p>
-                <p>✓ Salvamento automático de arquivos PDF resultantes com nomenclatura dinâmica</p>
-                <p>✓ Geração de estatísticas detalhadas de execução (sucesso/falha/taxa de erro)</p>
-                <p>✓ Logging estruturado para auditoria e troubleshooting</p>
-                <p>✓ Processamento em larga escala com otimização de memória</p>
-              </div>
-              <p className="text-accent font-semibold text-sm">
-                Impacto: Processamento de 10.000+ registros por execução | Taxa de sucesso 98% | Redução de 80% no tempo de integração de dados
-              </p>
-            </div>
+          <div className="grid gap-8 xl:grid-cols-2">
+            {projetos.map((p) => (
+              <MacWindow
+                key={p.id}
+                title={`workspace://${p.file}`}
+                subtitle={p.titulo}
+                badge={p.tag}
+                className="h-full"
+              >
+                <p className="mb-3 text-sm text-foreground/82">
+                  <span className="font-semibold text-accent">Problema:</span> {p.problema}
+                </p>
+                <p className="mb-4 text-sm text-foreground/82">
+                  <span className="font-semibold text-accent">Solução:</span> {p.solucao}
+                </p>
 
-            {/* Projeto 3 - Agente de Pesquisa de Decisões Judiciais */}
-            <div className="bg-card border border-border rounded-lg p-8 hover:border-accent transition-colors md:col-span-2">
-              <div className="flex items-start justify-between mb-4">
-                <h3 className="text-2xl font-bold text-foreground">
-                  Agente de Pesquisa de Decisões Judiciais com Copilot 365
-                </h3>
-                <span className="text-xs bg-accent/20 text-accent px-3 py-1 rounded-full">
-                  IA/Copilot
-                </span>
-              </div>
-              <p className="text-foreground/80 mb-6">
-                Sistema inteligente que melhora a pesquisa e recuperação de decisões judiciais anteriores para desembargadores do TJPR, utilizando Copilot 365 como agente guia. Integra busca semântica, análise de temas similares e suporte à elaboração de minutas com base em jurisprudência consolidada, acelerando o processo decisório com IA.
-              </p>
-              <div className="space-y-3 mb-6">
-                <div>
-                  <p className="text-sm text-accent font-semibold mb-2">Tecnologias:</p>
-                  <div className="flex flex-wrap gap-2">
-                    <span className="text-xs bg-primary/20 text-accent px-2 py-1 rounded">Copilot 365</span>
-                    <span className="text-xs bg-primary/20 text-accent px-2 py-1 rounded">Busca Semântica</span>
-                    <span className="text-xs bg-primary/20 text-accent px-2 py-1 rounded">RAG</span>
-                    <span className="text-xs bg-primary/20 text-accent px-2 py-1 rounded">LLM</span>
-                    <span className="text-xs bg-primary/20 text-accent px-2 py-1 rounded">NLP</span>
-                  </div>
+                <div className="mb-4 flex flex-wrap gap-2">
+                  {p.stack.map((s) => (
+                    <span
+                      key={s}
+                      className="rounded-full border border-border bg-background/60 px-2.5 py-1 text-xs text-foreground/78"
+                    >
+                      {s}
+                    </span>
+                  ))}
                 </div>
-              </div>
-              <div className="space-y-2 text-foreground/80 text-sm mb-6">
-                <p>✓ Pesquisa inteligente de decisões anteriores por tema, jurisprudência e similaridade semântica</p>
-                <p>✓ Agente Copilot como guia interativo para pesquisa e análise de decisões judiciais</p>
-                <p>✓ Recuperação de contexto jurídico relevante para embasamento de novas decisões</p>
-                <p>✓ Suporte à elaboração de minutas com referências automáticas de jurisprudência consolidada</p>
-                <p>✓ Análise de temas similares para aplicação de decisões justas e consistentes</p>
-                <p>✓ Integração com Copilot 365 para aceleração do andamento de processos judiciais</p>
-                <p>✓ Gerenciamento centralizado de decisões com histórico completo e rastreabilidade</p>
-                <p>✓ Trabalho célere com suporte de IA, reduzindo tempo de pesquisa e análise</p>
-              </div>
-              <p className="text-accent font-semibold text-sm">
-                Impacto: Redução de 60% no tempo de pesquisa jurisprudencial | Aumento de consistência decisória | Aceleração do andamento processual | Melhoria na qualidade das minutas
-              </p>
-            </div>
 
-            {/* Projeto 2 - Localizador PDF (MELHORADO) */}
-            <div className="bg-card border border-border rounded-lg p-8 hover:border-accent transition-colors md:col-span-2 lg:col-span-1">
-              <div className="flex items-start justify-between mb-4">
-                <h3 className="text-2xl font-bold text-foreground">
-                  Localizador Inteligente de Documentos PDF
-                </h3>
-                <span className="text-xs bg-accent/20 text-accent px-3 py-1 rounded-full">
-                  Python
-                </span>
-              </div>
-              <p className="text-foreground/80 mb-6">
-                Sistema inteligente em Python para localizar, processar e classificar arquivos PDF em diretórios de entrada, com extração de texto avançada usando OCR como fallback e busca semântica por palavras-chave específicas com suporte a expressões regulares.
-              </p>
-              <div className="space-y-3 mb-6">
-                <div>
-                  <p className="text-sm text-accent font-semibold mb-2">Tecnologias:</p>
-                  <div className="flex flex-wrap gap-2">
-                    <span className="text-xs bg-primary/20 text-accent px-2 py-1 rounded">Python</span>
-                    <span className="text-xs bg-primary/20 text-accent px-2 py-1 rounded">Tesseract OCR</span>
-                    <span className="text-xs bg-primary/20 text-accent px-2 py-1 rounded">PDF Processing</span>
-                    <span className="text-xs bg-primary/20 text-accent px-2 py-1 rounded">Regex</span>
-                  </div>
-                </div>
-              </div>
-              <div className="space-y-2 text-foreground/80 text-sm mb-6">
-                <p>✓ Extração de texto com fallback inteligente para OCR em PDFs de imagem (DPI 300+)</p>
-                <p>✓ Busca por palavras-chave configuráveis com suporte a expressões regulares</p>
-                <p>✓ Geração de relatórios detalhados de status (Encontrado/Não Encontrado/Falha)</p>
-                <p>✓ Logging estruturado com rastreamento de operações e erros</p>
-                <p>✓ Validação robusta de diretórios e tratamento de exceções</p>
-                <p>✓ Suporte a processamento em lote com progresso em tempo real</p>
-              </div>
-              <p className="text-accent font-semibold text-sm">
-                Impacto: Redução de 70% no tempo de processamento manual | Precisão de 99% na identificação de procurações
-              </p>
-            </div>
+                <ul className="mb-4 space-y-1 text-sm text-foreground/78">
+                  {p.features.map((f) => (
+                    <li key={f}>• {f}</li>
+                  ))}
+                </ul>
 
-            {/* Projeto 4 - Kronus */}
-            <div className="bg-card border border-border rounded-lg p-8 hover:border-accent transition-colors md:col-span-2 lg:col-span-1">
-              <div className="flex items-start justify-between mb-4">
-                <h3 className="text-2xl font-bold text-foreground">
-                  Kronus - Gestão de Ponto Inteligente
-                </h3>
-                <span className="text-xs bg-accent/20 text-accent px-3 py-1 rounded-full">
-                  React/TS
-                </span>
-              </div>
-              <p className="text-foreground/80 mb-6">
-                Sistema inteligente de gestão de ponto com integração Firebase em tempo real, suporte a múltiplas plataformas (Web, iOS, Android) e gerenciamento avançado de férias, feriados e recessos. Inclui dashboard inteligente, dark mode e autenticação robusta.
-              </p>
-              <div className="space-y-3 mb-6">
-                <div>
-                  <p className="text-sm text-accent font-semibold mb-2">Tecnologias:</p>
-                  <div className="flex flex-wrap gap-2">
-                    <span className="text-xs bg-primary/20 text-accent px-2 py-1 rounded">React 18</span>
-                    <span className="text-xs bg-primary/20 text-accent px-2 py-1 rounded">TypeScript</span>
-                    <span className="text-xs bg-primary/20 text-accent px-2 py-1 rounded">Firebase</span>
-                    <span className="text-xs bg-primary/20 text-accent px-2 py-1 rounded">Firestore</span>
-                    <span className="text-xs bg-primary/20 text-accent px-2 py-1 rounded">Vite</span>
-                  </div>
-                </div>
-              </div>
-              <div className="space-y-2 text-foreground/80 text-sm mb-6">
-                <p>✓ Dashboard inteligente com sincronização em tempo real</p>
-                <p>✓ Gestão avançada de férias, feriados e recessos</p>
-                <p>✓ Suporte a múltiplas plataformas (Web, iOS, Android)</p>
-                <p>✓ Dark mode integrado com tema customizável</p>
-                <p>✓ Autenticação robusta com Firebase Auth</p>
-                <p>✓ Exportação de dados com formatos múltiplos</p>
-                <p>✓ CI/CD com GitHub Actions para deploy automático</p>
-              </div>
-              <p className="text-accent font-semibold text-sm">
-                Impacto: Automatização 100% de gestão de ponto | Sincronização em tempo real | Acesso multiplataforma
-              </p>
-            </div>
+                <p className="mb-5 text-sm font-semibold text-accent">Impacto: {p.impacto}</p>
 
-            {/* Projeto 5 - Gestão de Demandas */}
-            <div className="bg-card border border-border rounded-lg p-8 hover:border-accent transition-colors md:col-span-2 lg:col-span-1">
-              <div className="flex items-start justify-between mb-4">
-                <h3 className="text-2xl font-bold text-foreground">
-                  Gestão de Demandas
-                </h3>
-                <span className="text-xs bg-accent/20 text-accent px-3 py-1 rounded-full">
-                  React/TS
-                </span>
-              </div>
-              <p className="text-foreground/80 mb-6">
-                Aplicação web para criar e gerenciar demandas/tarefas com formulário inteligente, filtros avançados, rastreamento de progresso e sincronização em tempo real com Firestore. Inclui alertas de demandas antigas e dashboard com resumo por prioridade.
-              </p>
-              <div className="space-y-3 mb-6">
-                <div>
-                  <p className="text-sm text-accent font-semibold mb-2">Tecnologias:</p>
-                  <div className="flex flex-wrap gap-2">
-                    <span className="text-xs bg-primary/20 text-accent px-2 py-1 rounded">React 18</span>
-                    <span className="text-xs bg-primary/20 text-accent px-2 py-1 rounded">TypeScript</span>
-                    <span className="text-xs bg-primary/20 text-accent px-2 py-1 rounded">Firebase</span>
-                    <span className="text-xs bg-primary/20 text-accent px-2 py-1 rounded">Firestore</span>
-                    <span className="text-xs bg-primary/20 text-accent px-2 py-1 rounded">Vite 5</span>
-                  </div>
+                <div className="flex flex-wrap gap-2">
+                  {p.github && (
+                    <a
+                      href={p.github}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex"
+                    >
+                      <Button variant="outline" size="sm" className="gap-1">
+                        <Github className="h-4 w-4" />
+                        Código
+                      </Button>
+                    </a>
+                  )}
+                  {p.demo && (
+                    <a
+                      href={p.demo}
+                      target={p.demo.startsWith("http") ? "_blank" : undefined}
+                      rel={p.demo.startsWith("http") ? "noopener noreferrer" : undefined}
+                      className="inline-flex"
+                    >
+                      <Button size="sm" className="gap-2 bg-accent hover:bg-accent/90">
+                        <TerminalSquare className="h-4 w-4" />
+                        Ver Demo
+                      </Button>
+                    </a>
+                  )}
+                  {!p.github && !p.demo && (
+                    <span className="text-xs italic text-foreground/50">Links em breve</span>
+                  )}
                 </div>
-              </div>
-              <div className="space-y-2 text-foreground/80 text-sm mb-6">
-                <p>✓ Formulário inteligente com múltiplas opções (projeto, responsáveis, categoria, prioridade)</p>
-                <p>✓ Dashboard com resumo por prioridade (Alta, Média, Baixa)</p>
-                <p>✓ Alerta de demandas antigas (mais de 14 dias)</p>
-                <p>✓ Lista de tarefas com busca e filtros avançados</p>
-                <p>✓ Barra de progresso visual e percentual por tarefa</p>
-                <p>✓ Ações: ajustar progresso, marcar finalizada, excluir</p>
-                <p>✓ Sincronização em tempo real com Firestore</p>
-                <p>✓ Exportação de dados e temas customizáveis</p>
-              </div>
-              <p className="text-accent font-semibold text-sm">
-                Impacto: Centralização de demandas | Rastreamento de progresso em tempo real | Redução de overhead administrativo
-              </p>
-            </div>
+              </MacWindow>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Formação */}
-      <section id="formacao" className="py-20 md:py-32 bg-card">
+      <section id="formacao" className="bg-card/65 py-20 md:py-28">
         <div className="container">
-          <h2 className="text-4xl md:text-5xl font-bold mb-12 text-accent">
-            Formação Acadêmica
+          <h2 className="mb-12 flex items-center gap-3 text-4xl font-bold text-accent md:text-5xl">
+            <GraduationCap className="h-10 w-10" />
+            Formação
           </h2>
 
-          <div className="space-y-8 max-w-3xl">
-            <div className="border-l-4 border-accent pl-8">
-              <h3 className="text-xl font-bold text-foreground mb-1">
-                Bacharel em Ciências da Computação
-              </h3>
-              <p className="text-accent font-semibold text-sm mb-1">
-                Universidade Estácio de Sá
-              </p>
-              <p className="text-foreground/70 text-sm">
-                Curitiba | Janeiro de 2019 - Agosto de 2023
-              </p>
-            </div>
+          <div className="grid gap-6 md:grid-cols-3">
+            <MacWindow title="education://graduation.md" badge="degree">
+              <h3 className="text-xl font-bold text-foreground">Bacharel em Ciências da Computação</h3>
+              <p className="mt-1 text-sm font-semibold text-accent">Universidade Estácio de Sá</p>
+              <p className="mt-2 text-sm text-foreground/70">Curitiba | Jan 2019 – Ago 2023</p>
+            </MacWindow>
 
-            <div className="border-l-4 border-accent pl-8">
-              <h3 className="text-xl font-bold text-foreground mb-1">
-                Pós-Graduação: Governança em Tecnologia da Informação (em andamento)
+            <MacWindow title="education://data-analytics.md" badge="concluída">
+              <h3 className="text-xl font-bold text-foreground">
+                Pós em Ciência de Dados e Big Data Analytics
               </h3>
-              <p className="text-accent font-semibold text-sm mb-1">
-                GRAN Faculdade
-              </p>
-              <p className="text-foreground/70 text-sm">
-                Curitiba | Julho de 2025 - Dezembro de 2026
-              </p>
-            </div>
+              <p className="mt-1 text-sm font-semibold text-accent">Universidade Estácio de Sá</p>
+              <p className="mt-2 text-sm text-foreground/70">Curitiba | Jan 2025 – Dez 2025</p>
+            </MacWindow>
 
-            <div className="border-l-4 border-accent pl-8">
-              <h3 className="text-xl font-bold text-foreground mb-1">
-                Inglês: A1-A2-B1-B2-C1
-              </h3>
-              <p className="text-accent font-semibold text-sm mb-1">
-                DIBS ONLINE ENGLISH SCHOOL LTDA
-              </p>
-              <p className="text-foreground/70 text-sm">
-                Janeiro de 2024 - Junho de 2024
-              </p>
-            </div>
+            <MacWindow title="education://postgraduate.md" badge="ongoing">
+              <h3 className="text-xl font-bold text-foreground">Pós em Governança de TI</h3>
+              <p className="mt-1 text-sm font-semibold text-accent">GRAN Faculdade</p>
+              <p className="mt-2 text-sm text-foreground/70">Jul 2025 – Dez 2026 (em andamento)</p>
+            </MacWindow>
           </div>
 
-          {/* Idiomas */}
-          <div className="mt-16 pt-12 border-t border-border">
-            <h3 className="text-2xl font-bold text-accent mb-6">Idiomas</h3>
-            <div className="grid md:grid-cols-3 gap-6">
-              <div>
-                <p className="font-semibold text-foreground mb-2">Português</p>
-                <p className="text-foreground/70">Nativo</p>
+          <div className="mt-10 grid gap-4 md:grid-cols-3">
+            {[
+              { idioma: "Português", nivel: "Nativo" },
+              { idioma: "Inglês", nivel: "Fluente" },
+              { idioma: "Espanhol", nivel: "Intermediário" },
+            ].map((lang) => (
+              <div
+                key={lang.idioma}
+                className="rounded-xl border border-border/70 bg-background/45 px-4 py-3"
+              >
+                <p className="text-sm font-semibold text-foreground">{lang.idioma}</p>
+                <p className="text-sm text-foreground/70">{lang.nivel}</p>
               </div>
-              <div>
-                <p className="font-semibold text-foreground mb-2">Inglês</p>
-                <p className="text-foreground/70">Fluente (B2-C1)</p>
-              </div>
-              <div>
-                <p className="font-semibold text-foreground mb-2">Espanhol</p>
-                <p className="text-foreground/70">Intermediário</p>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Contato */}
-      <section id="contato" className="py-20 md:py-32">
+      <section id="contato" className="py-20 md:py-28">
         <div className="container">
-          <h2 className="text-4xl md:text-5xl font-bold mb-12 text-accent">
+          <h2 className="mb-6 flex items-center gap-3 text-4xl font-bold text-accent md:text-5xl">
+            <Users className="h-10 w-10" />
             Vamos Conversar?
           </h2>
+          <p className="mb-4 max-w-2xl text-xl text-foreground/80">
+            Disponível para posições em PMO de tecnologia, Governança de TI/Dados e IA aplicada.
+          </p>
+          <p className="mb-12 text-foreground/70">Curitiba, PR | Remoto/Híbrido</p>
 
-          <div className="max-w-3xl">
-            <p className="text-lg text-foreground/80 mb-12 leading-relaxed">
-              Estou sempre aberto a novas oportunidades, parcerias e discussões sobre IA, Governança de TI e transformação digital. Entre em contato para conversar sobre como posso ajudar seu projeto ou organização.
-            </p>
-
-            {/* Informações de Contato */}
-            <div className="grid md:grid-cols-2 gap-8 mb-12">
-              <a
-                href="mailto:narley_almeida@icloud.com"
-                className="flex items-center gap-4 p-6 bg-card border border-border rounded-lg hover:border-accent transition-colors group"
-              >
-                <div className="flex-shrink-0">
-                  <Mail className="w-8 h-8 text-accent group-hover:scale-110 transition-transform" />
-                </div>
-                <div>
-                  <p className="text-sm text-foreground/70">Email</p>
-                  <p className="font-semibold text-foreground">narley_almeida@icloud.com</p>
-                </div>
+          <MacWindow title="contact://narley-almeida.json" badge="online" className="max-w-4xl">
+            <div className="flex flex-wrap gap-3">
+              <a href={`mailto:${EMAIL}`} className="inline-flex">
+                <Button className="gap-2 bg-accent hover:bg-accent/90">
+                  <Mail className="h-4 w-4" />
+                  E-mail
+                </Button>
               </a>
-
               <a
-                href="tel:+5541999096545"
-                className="flex items-center gap-4 p-6 bg-card border border-border rounded-lg hover:border-accent transition-colors group"
-              >
-                <div className="flex-shrink-0">
-                  <Phone className="w-8 h-8 text-accent group-hover:scale-110 transition-transform" />
-                </div>
-                <div>
-                  <p className="text-sm text-foreground/70">Telefone</p>
-                  <p className="font-semibold text-foreground">+55 (41) 99909-6545</p>
-                </div>
-              </a>
-            </div>
-
-            {/* Redes Sociais */}
-            <div className="flex gap-6">
-              <a
-                href="https://www.linkedin.com/in/narley-sousa-b95589287/"
+                href={`https://wa.me/${WHATSAPP}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-center w-12 h-12 rounded-lg bg-card border border-border hover:border-accent hover:bg-accent/10 transition-colors"
-                title="LinkedIn"
+                className="inline-flex"
               >
-                <Linkedin className="w-6 h-6 text-accent" />
+                <Button variant="outline" className="gap-2 border-accent text-accent">
+                  <MessageCircle className="h-4 w-4" />
+                  WhatsApp
+                </Button>
+              </a>
+              <a
+                href={LINKEDIN_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex"
+              >
+                <Button variant="outline" className="gap-2 border-accent text-accent">
+                  <Linkedin className="h-4 w-4" />
+                  LinkedIn
+                </Button>
+              </a>
+              <a
+                href={GITHUB_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex"
+              >
+                <Button variant="outline" className="gap-2 border-accent text-accent">
+                  <Github className="h-4 w-4" />
+                  GitHub
+                </Button>
+              </a>
+              <a href={CV_URL} download className="inline-flex">
+                <Button variant="outline" className="gap-2 border-accent text-accent">
+                  <Download className="h-4 w-4" />
+                  Baixar CV
+                </Button>
               </a>
             </div>
-          </div>
+          </MacWindow>
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="border-t border-border py-8 bg-card">
-        <div className="container flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-foreground/70 text-sm">
-            © 2025 Narley Almeida de Sousa. Todos os direitos reservados.
-          </p>
-          <p className="text-foreground/70 text-sm">
-            Desenvolvido com React + Tailwind CSS
-          </p>
+      <footer className="border-t border-border bg-card/70 py-8">
+        <div className="container flex flex-col items-center justify-between gap-4 md:flex-row">
+          <p className="text-sm text-foreground/70">© 2025 Narley Almeida. Todos os direitos reservados.</p>
+          <p className="text-sm text-foreground/70">Desenvolvido com React + Tailwind CSS</p>
         </div>
       </footer>
     </div>

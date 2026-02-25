@@ -38,8 +38,9 @@ jobs:
       - name: Build
         env:
           VITE_BASE_PATH: /portifolio/
-          VITE_APP_TITLE: Portfolio Narley
+          VITE_APP_TITLE: Narley Sousa | PMO – IA & Data Governance | Governança de TI
           VITE_APP_LOGO: /portifolio/favicon.png
+          VITE_META_DESCRIPTION: Especialista em Governança de TI, PMO e IA aplicada ao setor jurídico. Experiência com MLOps, LLMs, LGPD, COBIT, ITIL e projetos de alto impacto no TJPR.
           VITE_ANALYTICS_ENDPOINT: ""
           VITE_ANALYTICS_WEBSITE_ID: ""
         run: pnpm run build
