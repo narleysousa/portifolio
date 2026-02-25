@@ -8,7 +8,7 @@
       content="width=device-width, initial-scale=1.0, maximum-scale=1" />
     <link rel="icon" type="image/png" href="%VITE_APP_LOGO%" />
     <link rel="apple-touch-icon" href="%VITE_APP_LOGO%" />
-    <meta name="description" content="Portólio profissional de Narley Almeida de Sousa - Especialista em IA e Governança de TI" />
+    <meta name="description" content="Portfólio profissional de Narley Almeida de Sousa - Especialista em IA e Governança de TI" />
     <meta name="theme-color" content="#020229" />
     <title>%VITE_APP_TITLE%</title>
     <!-- Google Fonts -->
@@ -20,10 +20,9 @@
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
-    <script
-      defer
-      src="%VITE_ANALYTICS_ENDPOINT%/umami"
-      data-website-id="%VITE_ANALYTICS_WEBSITE_ID%"></script>
+    <script>
+      (function(){var e='%VITE_ANALYTICS_ENDPOINT%',i='%VITE_ANALYTICS_WEBSITE_ID%';if(e){var s=document.createElement('script');s.defer=true;s.src=e+'/umami';s.setAttribute('data-website-id',i||'');document.head.appendChild(s);}})();
+    </script>
   </body>
 
 </html>
