@@ -949,7 +949,7 @@ export default function Home() {
 
       <footer className="border-t border-border bg-card/70 py-8">
         <div className="container flex flex-col items-center justify-between gap-4 md:flex-row">
-          <p className="text-sm text-foreground/80">© 2025 Narley Almeida. Todos os direitos reservados.</p>
+          <p className="text-sm text-foreground/80">© 2026 Narley Almeida Consulting. Todos os direitos reservados.</p>
           <p className="text-sm text-foreground/80">Desenvolvido com React + Tailwind CSS</p>
         </div>
       </footer>
