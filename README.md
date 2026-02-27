@@ -37,4 +37,3 @@ O workflow em `.github/workflows/ci.yml` roda em todo push/PR para `main` ou `ma
 4. **Build** — `pnpm run build` (com variáveis de ambiente padrão)
 
 Para o CI passar, mantenha o lockfile atualizado: após alterar `package.json`, rode `pnpm install` e faça commit do `pnpm-lock.yaml`.
-# portifolio
