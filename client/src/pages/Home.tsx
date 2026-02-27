@@ -929,7 +929,9 @@ export default function Home() {
                         size="sm"
                         className="gap-2 bg-accent hover:bg-accent/90"
                         onClick={() => {
-                          setLocation(p.demo.replace(import.meta.env.BASE_URL, "/"));
+                          if (p.demo) {
+                            setLocation(p.demo.replace(import.meta.env.BASE_URL, "/"));
+                          }
                           window.scrollTo(0, 0);
                         }}
                       >
