@@ -37,6 +37,24 @@ type MacWindowProps = {
   children: ReactNode;
 };
 
+type Projeto = {
+  id: string;
+  titulo: string;
+  tag: string;
+  contexto?: string;
+  problema: string;
+  solucao: string;
+  stack: string[];
+  features: string[];
+  desafios?: string[];
+  metricas?: { label: string; valor: string }[];
+  impacto: string;
+  ano?: string;
+  github: string | null;
+  demo: string | null;
+  file: string;
+};
+
 function MacWindow({ title, subtitle, badge, className, children }: MacWindowProps) {
   const [isClosed, setIsClosed] = useState(false);
   const [isMinimized, setIsMinimized] = useState(false);
@@ -308,11 +326,12 @@ export default function Home() {
     },
   ];
 
-  const projetos = [
+  const projetos: Projeto[] = [
     {
       id: "pipeline",
       titulo: "Pipeline de Extração de Dados HTTP",
       tag: "Python",
+      contexto: "TJPR – Integração de dados processuais com sistemas externos e APIs governamentais.",
       problema: "Integração manual de grandes volumes de dados com endpoints externos.",
       solucao: "Pipeline automatizado com validação e tratamento robusto de erros.",
       stack: ["Python", "CSV", "HTTP", "Error Handling"],
@@ -321,7 +340,17 @@ export default function Home() {
         "Tratamento de múltiplos status HTTP",
         "Processamento em larga escala",
       ],
+      desafios: [
+        "Variabilidade de formatos e timeouts em APIs externas",
+        "Garantir idempotência e reprocessamento seguro",
+      ],
+      metricas: [
+        { label: "Volume por execução", valor: "10.000+ registros" },
+        { label: "Taxa de sucesso", valor: "98%" },
+        { label: "Redução de tempo", valor: "-80%" },
+      ],
       impacto: "10.000+ registros | 98% sucesso | -80% tempo de integração",
+      ano: "2024",
       github: null,
       demo: null,
       file: "projects/http-pipeline.py",
@@ -330,6 +359,7 @@ export default function Home() {
       id: "agente",
       titulo: "Agente de Pesquisa de Decisões Judiciais",
       tag: "IA/Copilot",
+      contexto: "TJPR – Serviço de IA para magistrados e assessores na pesquisa jurisprudencial.",
       problema: "Pesquisa jurisprudencial lenta e pouco sistemática.",
       solucao: "Sistema com Copilot 365, busca semântica e RAG para decisões.",
       stack: ["Copilot 365", "RAG", "LLM", "NLP"],
@@ -338,7 +368,17 @@ export default function Home() {
         "Elaboração de minutas com jurisprudência",
         "Integração com contexto jurídico",
       ],
+      desafios: [
+        "Aderência à LGPD e processamento on-prem",
+        "Engenharia de prompts com equipes jurídicas",
+      ],
+      metricas: [
+        { label: "Redução no tempo de pesquisa", valor: "-60%" },
+        { label: "Consistência decisória", valor: "Melhoria mensurável" },
+        { label: "Qualidade de minutas", valor: "Feedback positivo" },
+      ],
       impacto: "-60% tempo de pesquisa | Consistência decisória | Qualidade de minutas",
+      ano: "2025",
       github: null,
       demo: null,
       file: "projects/juris-rag.ts",
@@ -347,6 +387,7 @@ export default function Home() {
       id: "localizador",
       titulo: "Localizador Inteligente de Documentos PDF",
       tag: "Python",
+      contexto: "TJPR – Automação da localização de procurações e documentos em acervos digitais.",
       problema: "Localização manual de documentos em acervos grandes.",
       solucao: "Sistema com OCR e busca por palavras-chave/regex.",
       stack: ["Python", "Tesseract OCR", "PDF", "Regex"],
@@ -355,7 +396,16 @@ export default function Home() {
         "Busca configurável por regex",
         "Relatórios detalhados de status",
       ],
+      desafios: [
+        "Documentos escaneados com qualidade variável",
+        "Precisão na identificação de procurações",
+      ],
+      metricas: [
+        { label: "Redução de tempo", valor: "-70%" },
+        { label: "Precisão na identificação", valor: "99%" },
+      ],
       impacto: "-70% tempo | 99% precisão na identificação",
+      ano: "2024",
       github: null,
       demo: null,
       file: "projects/document-locator.py",
@@ -364,11 +414,25 @@ export default function Home() {
       id: "kronus",
       titulo: "Kronus – Gestão de Ponto Inteligente",
       tag: "React/TS",
+      contexto: "Produto independente – Solução multiplataforma para gestão de jornada e ponto.",
       problema: "Gestão de ponto fragmentada e manual.",
       solucao: "App multiplataforma com Firebase em tempo real.",
       stack: ["React 18", "TypeScript", "Firebase", "Firestore"],
-      features: ["Dashboard em tempo real", "Gestão de férias e feriados", "Web, iOS, Android"],
+      features: [
+        "Dashboard em tempo real",
+        "Gestão de férias e feriados",
+        "Web, iOS, Android",
+      ],
+      desafios: [
+        "Sincronização em tempo real entre dispositivos",
+        "Regras de jornada e banco de horas por equipe",
+      ],
+      metricas: [
+        { label: "Automatização", valor: "100%" },
+        { label: "Plataformas", valor: "Web, iOS, Android" },
+      ],
       impacto: "100% automatização | Multiplataforma",
+      ano: "2023–2024",
       github: null,
       demo: KRONUS_PREVIEW_URL,
       file: "projects/kronus-preview.tsx",
@@ -377,6 +441,7 @@ export default function Home() {
       id: "demandas",
       titulo: "Gestão de Demandas",
       tag: "React/TS",
+      contexto: "Produto independente – Centralização de demandas com visibilidade e SLA.",
       problema: "Demandas dispersas sem visibilidade de progresso.",
       solucao: "App com filtros, progresso e sincronização Firestore.",
       stack: ["React 18", "TypeScript", "Firebase", "Firestore"],
@@ -385,7 +450,16 @@ export default function Home() {
         "Alertas de demandas antigas",
         "Resumo por prioridade",
       ],
+      desafios: [
+        "Filtros dinâmicos e performance em listas grandes",
+        "Sincronização offline-first",
+      ],
+      metricas: [
+        { label: "Centralização", valor: "100% das demandas" },
+        { label: "Rastreamento", valor: "Tempo real" },
+      ],
       impacto: "Centralização | Rastreamento em tempo real",
+      ano: "2023",
       github: null,
       demo: DEMANDAS_PREVIEW_URL,
       file: "projects/gestao-demandas.tsx",
@@ -760,7 +834,14 @@ export default function Home() {
                 badge={p.tag}
                 className="h-full"
               >
-                <p className="mb-3 text-sm text-foreground/82">
+                {p.contexto && (
+                  <div className="mb-3 rounded-lg border border-border/60 bg-background/30 px-3 py-2">
+                    <p className="text-[11px] font-semibold uppercase tracking-wide text-foreground/60">Contexto</p>
+                    <p className="text-sm text-foreground/85">{p.contexto}</p>
+                  </div>
+                )}
+
+                <p className="mb-2 text-sm text-foreground/82">
                   <span className="font-semibold text-accent">Problema:</span> {p.problema}
                 </p>
                 <p className="mb-4 text-sm text-foreground/82">
@@ -776,6 +857,11 @@ export default function Home() {
                       {s}
                     </span>
                   ))}
+                  {p.ano && (
+                    <span className="rounded-full border border-accent/25 bg-accent/12 px-2.5 py-1 text-xs font-medium text-accent">
+                      {p.ano}
+                    </span>
+                  )}
                 </div>
 
                 <ul className="mb-4 space-y-1 text-sm text-foreground/78">
@@ -783,6 +869,31 @@ export default function Home() {
                     <li key={f}>• {f}</li>
                   ))}
                 </ul>
+
+                {p.desafios?.length ? (
+                  <div className="mb-4">
+                    <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-foreground/60">Desafios principais</p>
+                    <ul className="space-y-1 text-sm text-foreground/78">
+                      {p.desafios.map((d) => (
+                        <li key={d} className="flex gap-2">
+                          <span className="mt-1 h-1 w-1 shrink-0 rounded-full bg-accent" />
+                          {d}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ) : null}
+
+                {p.metricas?.length ? (
+                  <div className="mb-4 grid grid-cols-2 gap-2 sm:grid-cols-3">
+                    {p.metricas.map((m) => (
+                      <div key={m.label} className="rounded-lg border border-border/60 bg-background/30 p-2">
+                        <p className="text-[10px] uppercase tracking-wide text-foreground/60">{m.label}</p>
+                        <p className="text-sm font-semibold text-accent">{m.valor}</p>
+                      </div>
+                    ))}
+                  </div>
+                ) : null}
 
                 <p className="mb-5 text-sm font-semibold text-accent">Impacto: {p.impacto}</p>
 
